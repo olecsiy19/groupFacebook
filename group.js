@@ -8,14 +8,11 @@ function facebookGroup() {
         var str = facebookGroup[i].querySelector('._glo div ._ajw:first-child ._52eh').textContent;
         t.members = '';
         for(var j = 0; j < str.length; ++j) {
-            if(str.charAt(j) <= 9) {
+            if(str[j] != ',') {
                 t.members += str[j];
             }
-            else if(str[j] == ',') {
-                t.members += '.';
-            }
         }
-        t.members = parseFloat(t.members);
+        t.members = parseInt(t.members);
         t.follower = facebookGroup[i].querySelector('._glj ._42ft').textContent;
         if(t.follower == 'Joined') {
             t.follower = true;
