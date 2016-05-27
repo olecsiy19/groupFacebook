@@ -1,35 +1,31 @@
-    var nameGroup = [];
-    var elements = document.querySelectorAll('._gll a');
-    for (var i = 0; i < elements.length; i++) {
-    nameGroup.push(elements[i].textContent);
-    }
-    var group = [];
-    elements = document.querySelectorAll('div ._pac');
-    for (var i = 0; i < elements.length; i++) {
-        group.push(elements[i].textContent);
-    }
-    var members = [];
-    elements = document.querySelectorAll('._glo div ._ajw:first-child ._52eh');
-    for (var i = 0; i < elements.length; i++) {
-        members.push(elements[i].textContent);
-    }
-    var partner = [];
-    elements = document.querySelectorAll('._glj ._42ft');
-    for (var i = 0; i < elements.length; i++) {
-        partner.push(elements[i].textContent);
-    }
-     var jsonArray = [];
-    for(var i= 0; i < nameGroup.length; ++i){
+function facebookGroup() {
+    var facebookGroup = document.getElementsByClassName('_gli');
+    var jsonArray = [];
+    for (var i = 0; i < facebookGroup.length; ++i) {
         var t = new Object();
-        t.nameGroup = nameGroup[i];
-        t.group = group[i]
-        t.members = members[i]
-        if(partner[i] == 'Joined'){
-            t.partner = '+'
+        t.nameGroup = facebookGroup[i].querySelector('._gll a').textContent;
+        t.group = facebookGroup[i].querySelector('div ._pac').textContent;
+        var str = facebookGroup[i].querySelector('._glo div ._ajw:first-child ._52eh').textContent;
+        t.members = '';
+        for(var j = 0; j < str.length; ++j) {
+            if(str.charAt(j) <= 9) {
+                t.members += str[j];
+            }
+            else if(str[j] == ',') {
+                t.members += '.';
+            }
         }
-        else{
-            t.partner = '-'
+        t.members = parseFloat(t.members);
+        t.follower = facebookGroup[i].querySelector('._glj ._42ft').textContent;
+        if(t.follower == 'Joined') {
+            t.follower = true;
+        }
+        else {
+            t.follower = false;
         }
         jsonArray.push(t);
     }
-    JSON.stringify(jsonArray); 
+    console.log(jsonArray);
+    return JSON.stringify(jsonArray);
+}
+facebookGroup();
