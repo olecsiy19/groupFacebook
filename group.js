@@ -2,17 +2,26 @@ var GroupGraber = function() {
     window.scrollBy(0,10);
     var informationAboutGroups = [];
 
-    function pushGroupsOnScreen(facebookGroups) {
-        var informationAboutGroupsOnScreen = [];
+    function searchGroups(resolve) {
+        var facebookGroups = document.getElementsByClassName('_gli');
+        var endOfResults = document.getElementsByClassName('phm').length;
+
+        pushAndRemoveGroupsOnScreen(facebookGroups);
+
+        if(endOfResults == 0 || facebookGroups.length != 0) {
+            setTimeout( function() {
+                searchGroups(resolve);
+            }, 100);
+        } else {
+            resolve(informationAboutGroups);
+        }
+    }
+
+    function pushAndRemoveGroupsOnScreen(facebookGroups) {
 
         for (var i = 0; i < facebookGroups.length; ++i) {
-            informationAboutGroupsOnScreen.push( getInformationAboutGroup(facebookGroups[i]));
-        }
-
-        if (informationAboutGroupsOnScreen.length != 0) {
-            for (var i = 0; i < informationAboutGroupsOnScreen.length; ++i) {
-                informationAboutGroups.push(informationAboutGroupsOnScreen[i]);
-            }
+            informationAboutGroups.push( getInformationAboutGroup(facebookGroups[i]));
+            facebookGroups[i].outerHTML = '';
         }
     }
 
@@ -25,8 +34,6 @@ var GroupGraber = function() {
         informationAboutGroup.members = getMembers(facebookGroup);
         informationAboutGroup.follower = getFollower(facebookGroup);
         
-        facebookGroup.outerHTML = '';
-
         return informationAboutGroup;
     }
 
@@ -53,23 +60,9 @@ var GroupGraber = function() {
     return { getGroups : function() {
 
         return new Promise( function(resolve, reject) {
-
-            searchGroups();
-
-            function searchGroups() {
-                var facebookGroups = document.getElementsByClassName('_gli');
-                var endOfResults = document.getElementsByClassName('phm').length;
-
-                pushGroupsOnScreen(facebookGroups);
-
-                if(endOfResults == 0 || facebookGroups.length != 0) {
-                    setTimeout(searchGroups, 100);
-                } else {
-                    resolve(informationAboutGroups);
-                }
-            }
+            searchGroups(resolve);
         });
-    }}
+    }};
 }
 
 GroupGraber().getGroups().then( function(groupsArray) {
