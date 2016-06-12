@@ -1,10 +1,12 @@
-1. Користувач відкриває вкладку https://www.facebook.com/search/groups/?q=
-2. Вводить дані для пошуку груп.
-3. Відкриває консоль.
-4. запускає код з файлу group.js.
-5. Після виконання отримує  масив(informationAboutGroups) зі списком груп в якуму містяться:
-  -(id)id групи.
-  -(nameGroup)ім'я групи.
-  -(group)публічна чи відкрита група
-  -(members)кількість учасників групи
-  -(follower)інформація про те чи перебуває користувач в спільноті.
+
+This code is designed to get information about groups, which are displayed on the search page.
+1. User opens the link.
+2. Type in data for groups search.
+3. Opens console.
+4. Run code from groups.js file.
+5. After realization gets arrey(informationAboutGroups) which includes following information:
+  - id of group
+  - name of group(nameGroup)
+  - public or closed group(group)
+  - the number of members(members)
+  - information about if user is follower in this group(follower)
